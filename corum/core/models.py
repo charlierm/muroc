@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
@@ -30,6 +31,8 @@ class Case(AbstractBase):
     """
     title = models.CharField(max_length=255)
     description = models.TextField()
+    date_raised = models.DateTimeField(auto_now_add=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     def __unicode__(self):
         return self.title
