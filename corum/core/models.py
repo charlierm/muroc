@@ -3,9 +3,18 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
+import uuid
 
 
 class AbstractBase(models.Model):
+
+    id = models.CharField(max_length=36, primary_key=True, editable=False)
+
+    def __init__(self, *args, **kwargs):
+        super(AbstractBase, self).__init__(*args, **kwargs)
+        if not self.id:
+            self.id = str(uuid.uuid4())
+
     class Meta:
         abstract = True
 
@@ -48,7 +57,8 @@ class Location(AbstractBase):
     ForeignKey fields.
 
     """
-    location_object = generic.GenericForeignKey('content_type', 'id')
+    location_object = generic.GenericForeignKey('content_type', 'object_id')
+    object_id = models.CharField(max_length=36)
     content_type = models.ForeignKey(ContentType)
     latitude = models.FloatField()
     longitude = models.FloatField()
