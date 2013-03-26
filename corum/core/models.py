@@ -29,7 +29,7 @@ class AbstractBase(models.Model):
         abstract = True
 
 
-class User(AbstractUser):
+class User(AbstractUser, AbstractBase):
     """
     Custom User class, overrides django's User model
     for additional attributes.
