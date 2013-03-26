@@ -6,9 +6,22 @@ from django.contrib.contenttypes.models import ContentType
 import uuid
 
 
+class CustomManager(models.Manager):
+
+    use_for_related_fields = True
+
+    def visible(self):
+        return self.filter(hidden=False)
+
+    def hidden(self):
+        return self.filter(hidden=True)
+
+
 class AbstractBase(models.Model):
 
     id = models.CharField(max_length=36, primary_key=True, editable=False)
+    hidden = models.BooleanField(editable=False, default=False)
+    objects = CustomManager()
 
     def __init__(self, *args, **kwargs):
         super(AbstractBase, self).__init__(*args, **kwargs)
