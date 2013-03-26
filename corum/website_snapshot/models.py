@@ -59,6 +59,11 @@ class SnapshotCase(AbstractBase):
 
 
 class Snapshot(AbstractBase):
+    """
+    A snapshot of a website, a SnapshotCase can
+    have multiple Snapshots, perhaps a future feature 
+    could be to schedule taking snapshots.
+    """
     date = models.DateTimeField(auto_now_add=True)
     snapshot = models.FileField(upload_to='site_snapshot')
     snapshot_case = models.ForeignKey(SnapshotCase)
