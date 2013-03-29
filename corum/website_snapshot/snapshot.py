@@ -1,9 +1,7 @@
 import urllib2
-import re
 import urlparse
 import tempfile
 import os
-import pdb
 import zipfile
 from BeautifulSoup import BeautifulSoup
 
@@ -42,7 +40,7 @@ class WebsiteArchive(object):
 
     def _scripts(self):
         scripts = []
-        for script in self.soup.findAll("scripts"):
+        for script in self.soup.findAll("script"):
             if not script.has_key('src'):
                 continue
             url = urlparse.urljoin(self.url, script['src'])
@@ -59,6 +57,7 @@ class WebsiteArchive(object):
     def snapshot(self):
         tmp = tempfile.NamedTemporaryFile()
         zp = zipfile.ZipFile(tmp, 'w')
+        print self._scripts()
         for resource in self._images() + self._scripts():
             f = self.get_file(resource)
             self._files.append(f.name)
@@ -70,5 +69,9 @@ class WebsiteArchive(object):
         return file(tmp.name, 'rb')
 
     def __del__(self):
-        for f in self._files:
-            os.unlink(f)
+        try:
+            for f in self._files:
+                os.unlink(f)
+        except Exception:
+            pass
+
