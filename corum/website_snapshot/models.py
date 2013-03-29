@@ -3,7 +3,8 @@ from core.models import User, Case, AbstractBase
 from django.core.files import File
 import threading
 import hashlib
-from website_snapshot.snapshot import WebsiteArchive
+from website_snapshot import tasks
+
 
 
 class SnapshotCase(AbstractBase):
@@ -16,10 +17,8 @@ class SnapshotCase(AbstractBase):
         return self.snapshot_set.all().count()
 
     def take_snapshot(self):
-        ss = Snapshot(snapshot_case=self)
-        ss.snapshot.save(self.id + ".zip", File(WebsiteArchive(self.url).snapshot()))
-        ss.set_checksum()
-        ss.save()
+        tasks.take_snapshot.delay(self)
+
 
 
 class Snapshot(AbstractBase):
