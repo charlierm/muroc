@@ -1,0 +1,50 @@
+[
+    {
+        "model": "traceroute.startlocation",
+        "pk": "034c0a3a-2f0f-43ec-8431-aab1bedcea7d",
+        "fields": {
+            "location": "United Kingdom",
+            "code": "UK"
+        }
+    },
+    {
+        "model": "traceroute.startlocation",
+        "pk": "5aec953d-e401-41fe-b11c-6f1c9652171d",
+        "fields": {
+            "location": "Localhost",
+            "code": "LO"
+        }
+    },
+    {
+        "model": "traceroute.startlocation",
+        "pk": "92e84df8-1c5e-481e-87df-554abe89d405",
+        "fields": {
+            "location": "Russia",
+            "code": "RU"
+        }
+    },
+    {
+        "model": "traceroute.startlocation",
+        "pk": "3e651d33-e1b8-4233-8df1-8a9c589e6e72",
+        "fields": {
+            "location": "United States",
+            "code": "US"
+        }
+    },
+    {
+        "model": "traceroute.startlocation",
+        "pk": "9f803e1f-ac7f-4bcc-8b86-26c25c70617f",
+        "fields": {
+            "location": "Switzerland",
+            "code": "CH"
+        }
+    },
+    {
+        "model": "traceroute.startlocation",
+        "pk": "bcf2d3ea-0e8a-4722-bbba-97c96ee60ed2",
+        "fields": {
+            "location": "Japan",
+            "code": "JP"
+        }
+    }
+]

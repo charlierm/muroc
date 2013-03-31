@@ -131,6 +131,7 @@ INSTALLED_APPS = (
     'core',
     'twitter',
     'website_snapshot',
+    'traceroute',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
