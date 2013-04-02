@@ -3,4 +3,5 @@
 *.pyc
 *.sqlite
 local_settings.py
+*static/
 .DS_Store
