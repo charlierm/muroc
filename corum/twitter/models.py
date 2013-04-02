@@ -7,6 +7,9 @@ import twitter
 
 
 class TwitterCase(AbstractBase):
+    """
+    This is a top level container of data fetched from twitter
+    """
     case = models.ForeignKey(Case)
     username = models.CharField(max_length=15)
     date_raised = models.DateTimeField(auto_now_add=True)
@@ -14,11 +17,18 @@ class TwitterCase(AbstractBase):
     twitter_user = models.OneToOneField('TwitterUser', blank=True, null=True)
 
     def save(self, *args, **kwargs):
+        """
+        Overrides the model save method, starts the twitter fetch process.
+        TODO: This should be called from the post_save signal.
+        """
         if not self.twitter_user:
             self.fetch()
         super(TwitterCase, self).save(*args, **kwargs)
 
     def fetch(self):
+        """
+        Fetches the twitter data in a separate thread. 
+        """
         threading.Thread(target=self._fetch).start()
 
     def _clean(self):
