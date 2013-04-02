@@ -1,10 +1,7 @@
 from django.db import models
 from core.models import User, Case, AbstractBase
-from django.core.files import File
-import threading
 import hashlib
 from website_snapshot import tasks
-
 
 
 class SnapshotCase(AbstractBase):
@@ -19,6 +16,12 @@ class SnapshotCase(AbstractBase):
     def take_snapshot(self):
         tasks.take_snapshot.delay(self)
 
+    class Meta:
+        permissions = [
+            ("can_create", "User can create snapshots of websites"),
+            ("can_delete", "User can delete existing snapshot cases"),
+            ("can_read", "User can view website snapshot cases"),
+            ("can_update", "User can edit existing snapshot cases")]
 
 
 class Snapshot(AbstractBase):
@@ -40,3 +43,10 @@ class Snapshot(AbstractBase):
             hasher.update(buf)
             buf = snap.read(blocksize)
         print hasher.hexdigest()
+
+    class Meta:
+        permissions = [
+            ("can_create",
+             "User can create snapshots of websites for existing case"),
+            ("can_delete", "User can delete existing snapshots"),
+            ("can_read", "User can view website snapshots")]

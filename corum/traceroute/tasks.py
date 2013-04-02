@@ -6,14 +6,15 @@ def start_traceroute(traceroute_case):
     from models import TracerouteHop, TracerouteResult
     from traceroute import Traceroute
 
-    #TODO: Locations should be run in a seperate thread to reduce waiting times.
+    # TODO: Locations should be run in a seperate thread to reduce waiting
+    # times.
     for location in traceroute_case.locations.all():
-        t = Traceroute(ip_address=traceroute_case.host, 
-                country=location.code)
+        t = Traceroute(ip_address=traceroute_case.host,
+                       country=location.code)
         hops = t.traceroute()
 
         r = TracerouteResult(location=location,
-                traceroute=traceroute_case)
+                             traceroute=traceroute_case)
         r.save()
 
         for hop in hops:
