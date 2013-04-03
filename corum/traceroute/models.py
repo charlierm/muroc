@@ -1,4 +1,4 @@
-from django.db import models
+from django.contrib.gis.db import models
 from core.models import User, Case, AbstractBase, Location
 from django.conf import settings
 import tasks
@@ -37,15 +37,14 @@ class TracerouteHop(AbstractBase):
     rtt = models.FloatField()
     hop_num = models.IntegerField()
     ip_address = models.IPAddressField()
-    latitude = models.FloatField()
-    longitude = models.FloatField()
+    location = models.PointField()
 
     class Meta:
         ordering = ["hop_num"]
 
 
 class StartLocation(AbstractBase):
-    location = models.CharField(max_length=50)
+    location = models.CharField(max_length=100)
     code = models.CharField(max_length=5)
 
     def __unicode__(self):
