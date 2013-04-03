@@ -1,4 +1,5 @@
 from celery import task
+from django.contrib.gis.geos import *
 
 
 @task()
@@ -23,7 +24,6 @@ def start_traceroute(traceroute_case):
             h.hostname = hop['hostname']
             h.hop_num = hop['hop_num']
             h.rtt = float(hop['rtt'].replace(" ms", ""))
-            h.longitude = hop['longitude']
-            h.latitude = hop['latitude']
+            h.location = Point(hop['longitude'], hop['latitude'])
             h.ip_address = hop['ip_address']
             h.save()
