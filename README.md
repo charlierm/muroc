@@ -10,6 +10,8 @@ Proof of concept django site for corum
 * Django-Celery (https://pypi.python.org/pypi/django-celery)
 * BeautifulSoup (http://www.crummy.com/software/BeautifulSoup/)
 
+Install GeoDjango Database and [requirements](https://github.com/charlierm/muroc/wiki/Requirements)
+
 ###Running:
 The celery worker needs to be started before using the site, to start it run:
 ```
