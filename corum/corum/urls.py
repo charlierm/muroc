@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'corum.views.home', name='home'),
     # url(r'^corum/', include('corum.foo.urls')),
     url(r'^$', include('core.urls')),
+    url(r'^traceroute/', include('traceroute.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
