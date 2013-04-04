@@ -169,6 +169,8 @@ LOGGING = {
     }
 }
 
+GEOIP_PATH = os.path.dirname(__file__) + os.path.sep + 'geoip'
+
 try:
     from local_settings import *
 except ImportError:
