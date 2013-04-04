@@ -16,12 +16,11 @@ import optparse
 import os
 import re
 import signal
-import socket
 import sys
 import urllib
 import urllib2
-from multiprocessing import Process
 from subprocess import Popen, PIPE
+from django.contrib.gis.geoip import GeoIP
 
 
 class Traceroute(object):
@@ -207,14 +206,8 @@ class Traceroute(object):
             "latitude": 32.9299,
             "longitude": -96.8353}
         """
-        location = None
-        url = "https://dazzlepod.com/ip/%s.json" % ip_address
-        (status_code, json_data) = self.urlopen(url)
-        if status_code == 200 and json_data:
-            tmp_location = json.loads(json_data)
-            if tmp_location.has_key('latitude') and tmp_location.has_key('longitude'):
-                location = tmp_location
-        return location
+        g = GeoIP()
+        return g.city(ip_address)
 
     def execute_cmd(self, cmd):
         """Execute the specified command locally and return the resultant
@@ -237,7 +230,7 @@ class Traceroute(object):
         """Perform HTTP GET/POST on the specified URL and return the resultant
         status code and response."""
         status_code = 200
-        request = urllib2.Request(url = url)
+        request = urllib2.Request(url=url)
         request.add_header('User-Agent', 'traceroute/1.0 (+https://github.com/ayeowch/traceroute')
 
         if context:

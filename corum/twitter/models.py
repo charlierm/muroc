@@ -1,5 +1,4 @@
-from core.models import AbstractBase, Case, Location
-from django.contrib.contenttypes import generic
+from core.models import AbstractBase, Case
 from django.contrib.gis import geos
 from django.contrib.gis.db import models
 from django.conf import settings
