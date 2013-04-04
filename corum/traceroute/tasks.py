@@ -5,7 +5,7 @@ from django.contrib.gis.geos import *
 @task()
 def start_traceroute(traceroute_case):
     from models import TracerouteHop, TracerouteResult
-    from traceroute import Traceroute
+    from traceroute.troute import Traceroute
 
     # TODO: Locations should be run in a seperate thread to reduce waiting
     # times.
