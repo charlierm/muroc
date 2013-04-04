@@ -1,6 +1,6 @@
-from django.db import models
-from core.models import AbstractBase, Case, Location
-from django.contrib.contenttypes import generic
+from core.models import AbstractBase, Case
+from django.contrib.gis import geos
+from django.contrib.gis.db import models
 from django.conf import settings
 import threading
 import twitter
@@ -27,7 +27,7 @@ class TwitterCase(AbstractBase):
 
     def fetch(self):
         """
-        Fetches the twitter data in a separate thread. 
+        Fetches the twitter data in a separate thread.
         """
         threading.Thread(target=self._fetch).start()
 
@@ -63,11 +63,7 @@ class TwitterCase(AbstractBase):
             tweet.text = status.text
             tweet.user = self.twitter_user
             if status.location:
-                location = Location()
-                location.latitude = status.location['lat']
-                location.longitude = status.location['long']
-                location.location_object = tweet
-                location.save()
+                tweet.location = geos.Point(status.location['long'], status.location['lat'])
             tweet.save()
 
     def _fetch_profile(self):
@@ -89,7 +85,7 @@ class TwitterCase(AbstractBase):
 class Tweet(AbstractBase):
     date = models.DateField()
     text = models.CharField(max_length=140)
-    location = generic.GenericRelation(Location, null=True, blank=True)
+    location = models.PointField(null=True)
     user = models.ForeignKey('TwitterUser')
 
     def __unicode__(self):

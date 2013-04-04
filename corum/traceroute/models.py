@@ -1,7 +1,8 @@
 from django.contrib.gis.db import models
 from core.models import User, Case, AbstractBase, Location
 from django.conf import settings
-import tasks
+from traceroute import tasks
+from django.contrib.gis.geos import LineString
 
 
 class TracerouteCase(AbstractBase):
@@ -29,6 +30,10 @@ class TracerouteResult(AbstractBase):
     @property
     def hops(self):
         return self.traceroutehop_set.all()
+
+    @property
+    def line(self):
+        return LineString([hop.location for hop in self.hops])
 
 
 class TracerouteHop(AbstractBase):
