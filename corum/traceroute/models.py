@@ -44,6 +44,8 @@ class TracerouteHop(AbstractBase):
     ip_address = models.IPAddressField()
     location = models.PointField()
 
+    objects = models.GeoManager()
+
     class Meta:
         ordering = ["hop_num"]
 
