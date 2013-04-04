@@ -1,6 +1,6 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from models import TracerouteCase
+from traceroute.models import TracerouteCase
 
 
 @receiver(post_save, sender=TracerouteCase)
