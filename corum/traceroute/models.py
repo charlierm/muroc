@@ -1,5 +1,5 @@
 from django.contrib.gis.db import models
-from core.models import User, Case, AbstractBase, Location
+from core.models import User, Case, AbstractBase
 from django.conf import settings
 from traceroute import tasks
 from django.contrib.gis.geos import LineString

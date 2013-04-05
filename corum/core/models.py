@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ValidationError
 from django.contrib.gis.db import models
 import uuid
 
@@ -22,8 +23,12 @@ class AbstractBase(models.Model):
     id = models.CharField(max_length=36, primary_key=True, editable=False)
     hidden = models.BooleanField(editable=False, default=False)
     objects = CustomManager()
+    date_created = models.DateTimeField(auto_now_add=True)
 
     def __init__(self, *args, **kwargs):
+        """
+        Create object uuid on init if not already set.
+        """
         super(AbstractBase, self).__init__(*args, **kwargs)
         if not self.id:
             self.id = str(uuid.uuid4())
@@ -48,6 +53,8 @@ class User(AbstractUser, AbstractBase):
     for additional attributes.
     """
 
+    current_case = models.ForeignKey('Case', null=True)
+
     def __unicode__(self):
         return self.username
 
@@ -60,34 +67,69 @@ class Case(AbstractBase):
     possible to list all types of ForeignKeys so it would be easy
     to implement features as apps.
 
+    A case can relate to itself, thus a subcase is no different to a case.
+
     """
     title = models.CharField(max_length=255)
     description = models.TextField()
     date_raised = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+    parent_case = models.ForeignKey('self', blank=True, null=True)
+
+    @property
+    def is_subcase(self):
+        """
+        Checks whether the case has a parent case, thus making it 
+        a subcase. A subcase cannot parent another case.
+
+        """
+        if self.parent_case:
+            return True
+        else:
+            return False
+
+    def clean(self):
+        """
+        Ensures the parent case is not already a subcase 
+        before saving.
+        """
+
+        if self.parent_case and self.parent_case.is_subcase:
+            raise ValidationError('Parent case is already a subcase, cannot attach cases to subcases')
 
     def __unicode__(self):
         return self.title
 
 
-class Location(AbstractBase):
+class AbstractTarget(AbstractBase):
     """
-    Although we could use GeoDjango to assist in storing spacial data,
-    for now this class will do. It implements a GenericForeignKey so
-    we can attach it to any object type.
-
-    GenericForeignKey fields are set in exactly the same manner as normal
-    ForeignKey fields.
-
+    Base class for all targets. Both UserTarget and
+    HostTarget extend this.
     """
-    location_object = generic.GenericForeignKey('content_type', 'object_id')
-    object_id = models.CharField(max_length=36)
-    content_type = models.ForeignKey(ContentType)
-    latitude = models.FloatField()
-    longitude = models.FloatField()
+    description = models.TextField()
+    case = models.ForeignKey(Case)
+    location = models.PointField(null=True)
 
-    def __unicode__(self):
-        return str(self.latitude) + ", " + str(self.longitude)
+    class Meta:
+        abstract = True
+
+
+class UserTarget(AbstractTarget):
+    """
+    UserTarget are human targets, apps such as Twitter
+    and facebook can be run against them.
+    """
+    name = models.CharField(max_length=200)
+    username = models.CharField(max_length=200)
+    email = models.EmailField()
+    address = models.TextField()
+
+
+class HostTarget(AbstractTarget):
+    """
+    A host target represents a machine target, e.g a website.
+    """
+    host = models.CharField(max_length=240)
 
 
 class ViewLog(AbstractBase):

@@ -18,7 +18,10 @@ def traceroute_serialise(request, traceroute_id, format):
         kml = simplekml.Kml()
         kml.newlinestring(name="Traceroute", description="Traceroute",
                           coords=tr.line.coords)
-        return HttpResponse(kml.kml())
+        response = HttpResponse(kml.kml())
+        filename = tr.traceroute.host + '-' + tr.location.code
+        response['Content-Disposition'] = 'attachment; filename=%s.kml' % (filename)
+        return response
 
     elif format == Format.GEOJSON:
         return HttpResponse(tr.line.geojson)
