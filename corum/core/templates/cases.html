@@ -1,34 +1,52 @@
 {% extends "navbar.html" %}
 
 {% block content %}
+<div class="page-header">
+  <h1>Corum Cases <small>All cases</small></h1>
+</div>
+{% if not cases %}
+<div class="row-fluid">
+    <div class="hero-unit span8">
+        <h1>No Cases...</h1>
+        <p>A Case in Corum is a collection of targets and evidence. Cases can contain subcases.</p>
+        <p>
+            <a class="btn btn-primary btn-large">
+            Create
+            </a>
+        </p>
+    </div>
+</div>
+{% endif %}
 <div class="row-fluid">
     <div class="span12">
-    {% for case in cases %}
-    <h1>{{ case.title }} <span class="lead">- {{case.date_created}}</span> </h1>
-    <p class="well">{{ case.description }}</p>
-    <div>
-        <a href="#" class="btn">More.. <i class="icon-wrench"></i></a>
-        <a href="#" class="btn btn-warning">Default <i class="icon-star icon-white"></i></a>
-        <div class="pull-right"><span class="label">Taliban</span></div>
-    </div> 
-    <hr>
-    {% endfor %}
-</div>
+        {% for case in cases %}
+        <h1>{{ case.title }} <span class="lead">- {{case.date_created}}</span> </h1>
+        <p class="well">{{ case.description }}</p>
+        <div>
+            <a href="#" class="btn">More.. <i class="icon-wrench"></i></a>
+            <a href="#" class="btn btn-warning">Default <i class="icon-star icon-white"></i></a>
+            <div class="pull-right"><span class="label">Taliban</span></div>
+        </div> 
+        <hr>
+        {% endfor %}
+    </div>
 </div>
 <div class="pagination">
   <ul>
-    {% if cases.has_previous %}
-        <li><a href="?page={{ cases.previous_page_number }}">Prev</a></li>
-    {% endif %}
+    {% if cases.has_other_pages %}
+        {% if cases.has_previous %}
+            <li><a href="?page={{ cases.previous_page_number }}">Prev</a></li>
+        {% endif %}
 
-    
-    <li class="disabled"><a href="#">{{ cases.number }}</a></li>
+        <li class="disabled"><a href="#">{{ cases.number }}</a></li>
 
-    {% if cases.has_next %}
-        <li><a href="?page={{ cases.next_page_number }}">Next</a></li>
+        {% if cases.has_next %}
+            <li><a href="?page={{ cases.next_page_number }}">Next</a></li>
+        {% endif %}
     {% endif %}
   </ul>
 </div>
 
 
 {% endblock %}
+
