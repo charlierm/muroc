@@ -24,7 +24,7 @@ class AbstractBase(models.Model):
     hidden = models.BooleanField(editable=False, default=False)
     objects = CustomManager()
     date_created = models.DateTimeField(auto_now_add=True)
-    tags = models.ManyToManyField('Tag')
+    tags = models.ManyToManyField('Tag', null=True, blank=True)
 
     def __init__(self, *args, **kwargs):
         """
