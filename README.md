@@ -9,6 +9,7 @@ Proof of concept django site for corum
 * Celery (http://www.celeryproject.org)
 * Django-Celery (https://pypi.python.org/pypi/django-celery)
 * BeautifulSoup (http://www.crummy.com/software/BeautifulSoup/)
+* SimpleKML (http://code.google.com/p/simplekml/)
 
 Install GeoDjango Database and [requirements](https://github.com/charlierm/muroc/wiki/Requirements)
 
