@@ -24,6 +24,7 @@ class AbstractBase(models.Model):
     hidden = models.BooleanField(editable=False, default=False)
     objects = CustomManager()
     date_created = models.DateTimeField(auto_now_add=True)
+    tags = models.ManyToManyField('Tag')
 
     def __init__(self, *args, **kwargs):
         """
@@ -157,3 +158,6 @@ class ViewLog(AbstractBase):
         view.user = user
         view.save()
         return view
+
+class Tag(AbstractBase):
+    name = models.CharField(max_length=20)
