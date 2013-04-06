@@ -159,5 +159,6 @@ class ViewLog(AbstractBase):
         view.save()
         return view
 
+
 class Tag(AbstractBase):
     name = models.CharField(max_length=20)
