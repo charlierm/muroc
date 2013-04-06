@@ -162,3 +162,6 @@ class ViewLog(AbstractBase):
 
 class Tag(AbstractBase):
     name = models.CharField(max_length=20)
+
+    def __unicode__(self):
+        return self.name
