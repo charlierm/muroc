@@ -2,7 +2,15 @@
 
 {% block content %}
 <div class="page-header">
-  <h1>Corum Cases <small>All cases</small></h1>
+  <h1>Corum Cases 
+    <small>All cases</small>
+    <div class="pull-right">
+        <a class="btn">
+            Create Case
+            <i class="icon-plus"></i>
+        </a>
+    </div>
+  </h1>
 </div>
 {% if not cases %}
 <div class="row-fluid">
@@ -11,7 +19,8 @@
         <p>A Case in Corum is a collection of targets and evidence. Cases can contain subcases.</p>
         <p>
             <a class="btn btn-primary btn-large">
-            Create
+                Create
+                <i class="icon-plus icon-white"></i>
             </a>
         </p>
     </div>
@@ -25,7 +34,11 @@
         <div>
             <a href="#" class="btn">More.. <i class="icon-wrench"></i></a>
             <a href="#" class="btn btn-warning">Default <i class="icon-star icon-white"></i></a>
-            <div class="pull-right"><span class="label">Taliban</span></div>
+            <div class="pull-right">
+                {% for tag in case.tags.all %}
+                <span class="label">{{ tag.name }}</span>
+                {% endfor %}
+            </div>
         </div> 
         <hr>
         {% endfor %}
