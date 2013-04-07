@@ -1,0 +1,94 @@
+{% extends "navbar.html" %}
+
+{% block head %}
+
+<script>
+$(document).ready(function(){
+    $('.default-case').click(function(){
+        if ($(this).hasClass('disabled')) {
+            return false;
+        };
+        $.getJSON(this.href, function(data){
+            if (data['result'] == true) {
+                $('.default-case.disabled').removeClass('disabled')
+            };
+        });
+        var btn = this
+        setTimeout(function() { 
+            $(btn).addClass('disabled') 
+        }, 500);
+        return false
+    });
+    });
+</script>
+
+{% endblock %}
+
+
+{% block content %}
+<div class="page-header">
+  <h1>Corum Cases 
+    <small>All cases</small>
+    <div class="pull-right">
+        <a class="btn">
+            Create Case
+            <i class="icon-plus"></i>
+        </a>
+    </div>
+  </h1>
+</div>
+{% if not case_list %}
+<div class="row-fluid">
+    <div class="hero-unit span8">
+        <h1>No Cases...</h1>
+        <p>A Case in Corum is a collection of targets and evidence. Cases can contain subcases.</p>
+        <p>
+            <a class="btn btn-primary btn-large">
+                Create
+                <i class="icon-plus icon-white"></i>
+            </a>
+        </p>
+    </div>
+</div>
+{% endif %}
+<div class="row-fluid">
+    <div class="span12">
+        {% for case in case_list %}
+        <h1>{{ case.name }} <span class="lead">- {{case.date_created}}</span> </h1>
+        <p class="well">{{ case.description }}</p>
+        <div>
+            <a href="#" class="btn">More.. <i class="icon-wrench"></i></a>
+            {% if user.current_case == case %}
+            <a href="{{ case.slug }}/default" class="btn btn-warning disabled default-case" data-loading-text="Setting..">Default <i class="icon-star icon-white"></i></a>
+            {% else %}
+            <a href="{{ case.slug }}/default" class="btn btn-warning default-case" data-loading-text="Setting..">Default <i class="icon-star icon-white"></i></a>
+            {% endif %}
+            <div class="pull-right">
+                {% for tag in case.tags.all %}
+                <span class="label">{{ tag.name }}</span>
+                {% endfor %}
+            </div>
+        </div> 
+        <hr>
+        {% endfor %}
+    </div>
+</div>
+<div class="pagination">
+  <ul>
+    {% if page_obj.has_other_pages %}
+        {% if page_obj.has_previous %}
+            <li><a href="?page={{ page_obj.previous_page_number }}">Prev</a></li>
+        {% endif %}
+
+        <li class="disabled"><a href="#">{{ page_obj.number }}</a></li>
+
+        {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}">Next</a></li>
+        {% endif %}
+    {% endif %}
+  </ul>
+</div>
+
+
+{% endblock %}
+
