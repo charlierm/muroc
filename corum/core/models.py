@@ -4,6 +4,7 @@ from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.contrib.gis.db import models
+from django.template import defaultfilters
 import uuid
 
 
@@ -71,7 +72,8 @@ class Case(AbstractBase):
     A case can relate to itself, thus a subcase is no different to a case.
 
     """
-    title = models.CharField(max_length=255)
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, editable=False)
     description = models.TextField()
     date_raised = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -98,8 +100,12 @@ class Case(AbstractBase):
         if self.parent_case and self.parent_case.is_subcase:
             raise ValidationError('Parent case is already a subcase, cannot attach cases to subcases')
 
+    def save(self, *args, **kwargs):
+        self.slug = defaultfilters.slugify(self.name)
+        super(Case, self).save(*args, **kwargs)
+
     def __unicode__(self):
-        return self.title
+        return self.name
 
 
 class AbstractTarget(AbstractBase):
