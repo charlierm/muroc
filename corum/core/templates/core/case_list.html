@@ -30,7 +30,7 @@ $(document).ready(function(){
   <h1>Corum Cases 
     <small>All cases</small>
     <div class="pull-right">
-        <a class="btn">
+        <a href="create/" data-target="#new-case-modal" role="button" class="btn" data-toggle="modal">
             Create Case
             <i class="icon-plus"></i>
         </a>
@@ -43,7 +43,7 @@ $(document).ready(function(){
         <h1>No Cases...</h1>
         <p>A Case in Corum is a collection of targets and evidence. Cases can contain subcases.</p>
         <p>
-            <a class="btn btn-primary btn-large">
+            <a href="#new-case-modal" class="btn btn-primary btn-large">
                 Create
                 <i class="icon-plus icon-white"></i>
             </a>
@@ -57,11 +57,16 @@ $(document).ready(function(){
         <h1>{{ case.name }} <span class="lead">- {{case.date_created}}</span> </h1>
         <p class="well">{{ case.description }}</p>
         <div>
-            <a href="#" class="btn">More.. <i class="icon-wrench"></i></a>
+            <a href="{{ case.get_absolute_url }}" class="btn">More.. <i class="icon-wrench"></i></a>
             {% if user.current_case == case %}
-            <a href="{{ case.slug }}/default" class="btn btn-warning disabled default-case" data-loading-text="Setting..">Default <i class="icon-star icon-white"></i></a>
+            <a href="{{ case.slug }}/default" class="btn btn-warning disabled default-case" data-loading-text="Setting..">
+                Default 
+                <i class="icon-star icon-white"></i></a>
             {% else %}
-            <a href="{{ case.slug }}/default" class="btn btn-warning default-case" data-loading-text="Setting..">Default <i class="icon-star icon-white"></i></a>
+            <a href="{{ case.slug }}/default" class="btn btn-warning default-case" data-loading-text="Setting..">
+                Default 
+                <i class="icon-star icon-white"></i>
+            </a>
             {% endif %}
             <div class="pull-right">
                 {% for tag in case.tags.all %}
@@ -87,6 +92,22 @@ $(document).ready(function(){
         {% endif %}
     {% endif %}
   </ul>
+</div>
+
+
+
+<div id="new-case-modal" class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Create Case</h3>
+  </div>
+  <div class="modal-body">
+    <p>One fine body…</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn">Close</a>
+    <a href="#" class="btn btn-primary">Save changes</a>
+  </div>
 </div>
 
 
