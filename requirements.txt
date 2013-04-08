@@ -1,4 +1,3 @@
 Celery
 Django-Celery
 BeautifulSoup
-MySQLdb
