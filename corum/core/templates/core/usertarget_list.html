@@ -1,0 +1,45 @@
+{% if not usertargets %}
+<div class="row-fluid">
+    <div class="hero-unit span8">
+        <h1>No User Targets</h1>
+        <p>A user Target in Corum is a target in the context of a user.</p>
+        <p>
+            <a href="#new-case-modal" class="btn btn-primary btn-large">
+                Create
+                <i class="icon-plus icon-white"></i>
+            </a>
+        </p>
+    </div>
+</div>
+{% else %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for usertarget in usertargets %}
+        <tr>
+            <td>{{ usertarget.name }}</td>
+            <td>{{ usertarget.username }}</td>
+            <td>{{ usertarget.email }}</td>
+            <td>
+                <p>
+                    {{ usertarget.address }}
+                </p>
+            </td>
+            <td>
+                <p>
+                    {{ usertarget.description }}
+                </p>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}

@@ -7,8 +7,6 @@ from django.contrib.gis.db import models
 from django.template import defaultfilters
 from django.core.urlresolvers import reverse
 import uuid
-from core.utils import *
-
 
 class CustomManager(models.Manager):
 
