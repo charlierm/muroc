@@ -1,0 +1,104 @@
+{% extends "navbar.html" %}
+
+{% block title %}Case - {{case.name}} {% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<div class="row-fluid">
+    <div class="span12">
+        <div class="page-header">
+            {% if case.is_subcase %}
+            <h1>Subcase <small>{{case.name}}</small></h1>
+            {% else %}
+            <h1>Case <small>{{case.name}}</small></h1>
+            {% endif %}
+            <h1><span class="lead">{{case.date_created}}</span></h1>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                {% if not case.is_subcase %}
+                <li class="active"><a href="#tab-subcases" data-toggle="tab">Subcases</a></li>
+                {% endif %}
+                <li><a href="#tab-usertargets" data-toggle="tab">User Targets</a></li>
+                <li><a href="#tab2" data-toggle="tab">Host Targets</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab-subcases">
+                    {% for case in case.case_set.all %}
+                    <h3>{{ case.name }} <span class="lead">- {{case.date_created}}</span> </h3>
+                    <p class="well">{{ case.description }}</p>
+                    <div>
+                        <a href="{{ case.get_absolute_url }}" class="btn">More.. <i class="icon-wrench"></i></a>
+                        <div class="pull-right">
+                        {% for tag in case.tags.all %}
+                            <span class="label">{{ tag.name }}</span>
+                        {% endfor %}
+                            </div>
+                        </div> 
+                    <hr>
+                    {% endfor %}   
+                </div>
+                <div class="tab-pane" id="tab-usertargets">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Address</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for usertarget in case.usertarget_set.all %}
+                            <tr>
+                                <td>{{ usertarget.name }}</td>
+                                <td>{{ usertarget.username }}</td>
+                                <td>{{ usertarget.email }}</td>
+                                <td>
+                                    <p>
+                                        {{ usertarget.address }}
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        {{ usertarget.description }}
+                                    </p>
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% comment %}
+
+<div class="tabbable"> <!-- Only required for left/right tabs -->
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#tab1" data-toggle="tab">Section 1</a></li>
+    <li><a href="#tab2" data-toggle="tab">Section 2</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab1">
+      <p>I'm in Section 1.</p>
+    </div>
+    <div class="tab-pane" id="tab2">
+      <p>Howdy, I'm in Section 2.</p>
+    </div>
+  </div>
+</div>
+
+{% endcomment %}
+
+{% endblock %}
