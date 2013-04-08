@@ -5,7 +5,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.contrib.gis.db import models
 from django.template import defaultfilters
+from django.core.urlresolvers import reverse
 import uuid
+from core.utils import *
 
 
 class CustomManager(models.Manager):
@@ -44,6 +46,11 @@ class AbstractBase(models.Model):
         count = ViewLog.objects.filter(content_type__pk=model_type.id,
                                        object_id=self.id).count()
         return count
+
+    def get_related_objects(self):
+        collector = NestedObjects(using='default')
+        collector.collect([object])
+        return collector.nested()
 
     class Meta:
         abstract = True
@@ -103,6 +110,9 @@ class Case(AbstractBase):
     def save(self, *args, **kwargs):
         self.slug = defaultfilters.slugify(self.name)
         super(Case, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('core:case_detail', args=[str(self.slug)])
 
     def __unicode__(self):
         return self.name
