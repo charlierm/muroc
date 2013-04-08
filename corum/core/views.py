@@ -1,9 +1,11 @@
 # Create your views here.
-from django.views.generic import ListView, View
+from django.views.generic import ListView, View, DetailView
+from django.views.generic.edit import CreateView
 from core.models import Case
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
+from core.forms import CaseForm
 import json
 
 
@@ -35,3 +37,21 @@ class DefaultCaseView(View):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super(DefaultCaseView, self).dispatch(request, *args, **kwargs)
+
+
+class CreateCaseView(CreateView):
+    model = Case
+    form_class = CaseForm
+
+    def get_initial(self):
+        self.initial.update({'owner': self.request.user})
+        return super(CreateCaseView, self).get_initial()
+
+
+class CaseDetailView(DetailView):
+
+    model = Case
+
+    # def get_queryset(self):
+    #     queryset = super(CaseListView, self).get_queryset().filter(parent_case=None)
+    #     return queryset

@@ -9,18 +9,17 @@ class TracerouteCase(AbstractBase):
     case = models.ForeignKey(Case)
     host = models.CharField(max_length=200)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL)
-    #TODO: The locations that are being searched does not need to be stored in the db,
-    # a better approach would be jsut to pass the start_traceroute() method a list of locations to run.
-    #
     locations = models.ManyToManyField('StartLocation')
 
     def start_traceroute(self):
-        #TODO: This needs to be checking the location traceroute doesnt already exist, or something along those lines!
         tasks.start_traceroute.delay(self)
 
     @property
     def results(self):
         return self.tracerouteresult_set.all()
+
+    def __unicode__(self):
+        return self.host
 
 
 class TracerouteResult(AbstractBase):
@@ -35,6 +34,9 @@ class TracerouteResult(AbstractBase):
     def line(self):
         return LineString([hop.location for hop in self.hops])
 
+    def __unicode__(self):
+        return self.location.location
+
 
 class TracerouteHop(AbstractBase):
     traceroute = models.ForeignKey(TracerouteResult)
@@ -45,6 +47,9 @@ class TracerouteHop(AbstractBase):
     location = models.PointField()
 
     objects = models.GeoManager()
+
+    def __unicode__(self):
+        return str(self.hop_num) + ": " + self.ip_address
 
     class Meta:
         ordering = ["hop_num"]
