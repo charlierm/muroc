@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.gis.db import models
 from django.template import defaultfilters
 from django.core.urlresolvers import reverse
+from django.contrib.admin.util import NestedObjects
 import uuid
 
 class CustomManager(models.Manager):
@@ -47,7 +48,7 @@ class AbstractBase(models.Model):
 
     def get_related_objects(self):
         collector = NestedObjects(using='default')
-        collector.collect([object])
+        collector.collect([self])
         return collector.nested()
 
     class Meta:
