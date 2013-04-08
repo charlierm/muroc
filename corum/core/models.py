@@ -142,12 +142,18 @@ class UserTarget(AbstractTarget):
     email = models.EmailField()
     address = models.TextField()
 
+    def __unicode__(self):
+        return self.name
+
 
 class HostTarget(AbstractTarget):
     """
     A host target represents a machine target, e.g a website.
     """
     host = models.CharField(max_length=240)
+
+    def __unicode__(self):
+        return self.host
 
 
 class ViewLog(AbstractBase):
