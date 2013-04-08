@@ -46,37 +46,9 @@
                     {% endfor %}   
                 </div>
                 <div class="tab-pane" id="tab-usertargets">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Address</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for usertarget in case.usertarget_set.all %}
-                            <tr>
-                                <td>{{ usertarget.name }}</td>
-                                <td>{{ usertarget.username }}</td>
-                                <td>{{ usertarget.email }}</td>
-                                <td>
-                                    <p>
-                                        {{ usertarget.address }}
-                                    </p>
-                                </td>
-                                <td>
-                                    <p>
-                                        {{ usertarget.description }}
-                                    </p>
-                                </td>
-
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    {% with usertargets=case.usertarget_set.all %}
+                        {% include 'core/usertarget_list.html' %}
+                    {% endwith %}
                 </div>
             </div>
         </div>
