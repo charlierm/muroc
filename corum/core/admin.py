@@ -5,6 +5,6 @@ from django.db import models
 
 for model in models.get_models():
     try:
-        admin.site.register(model, admin.GeoModelAdmin)
+        admin.site.register(model, admin.OSMGeoAdmin)
     except Exception:
         continue
