@@ -22,7 +22,7 @@
     <tbody>
         {% for hosttarget in hosttargets %}
         <tr>
-            <td>{{ hosttarget.host }}</td>
+            <td><a href="{{ hosttarget.get_absolute_url }}">{{ hosttarget.host }}</a></td>
             <td>
                 <p>
                     {{ hosttarget.description }}

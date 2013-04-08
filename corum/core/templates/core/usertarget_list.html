@@ -24,7 +24,7 @@
     <tbody>
         {% for usertarget in usertargets %}
         <tr>
-            <td>{{ usertarget.name }}</td>
+            <td><a href="{{usertarger.get_absolute_url}}">{{ usertarget.name }}</a></td>
             <td>{{ usertarget.username }}</td>
             <td>{{ usertarget.email }}</td>
             <td>

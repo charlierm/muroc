@@ -142,6 +142,9 @@ class UserTarget(AbstractTarget):
     email = models.EmailField()
     address = models.TextField()
 
+    def get_absolute_url(self):
+        return reverse('core:usertarget_detail', args=[str(self.id)])
+
     def __unicode__(self):
         return self.name
 
@@ -151,6 +154,9 @@ class HostTarget(AbstractTarget):
     A host target represents a machine target, e.g a website.
     """
     host = models.CharField(max_length=240)
+
+    def get_absolute_url(self):
+        return reverse('core:hosttarget_detail', args=[str(self.id)])
 
     def __unicode__(self):
         return self.host

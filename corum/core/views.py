@@ -1,7 +1,7 @@
 # Create your views here.
 from django.views.generic import ListView, View, DetailView
 from django.views.generic.edit import CreateView
-from core.models import Case
+from core.models import Case,UserTarget
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
@@ -55,3 +55,11 @@ class CaseDetailView(DetailView):
     # def get_queryset(self):
     #     queryset = super(CaseListView, self).get_queryset().filter(parent_case=None)
     #     return queryset
+
+class UserTargetDetailView(DetailView):
+    
+    model=UserTarget
+
+class HostTargetDetailView(DetailView):
+    
+    model=UserTarget
