@@ -25,11 +25,15 @@
             <ul class="nav nav-tabs">
                 {% if not case.is_subcase %}
                 <li class="active"><a href="#tab-subcases" data-toggle="tab">Subcases</a></li>
-                {% endif %}
                 <li><a href="#tab-usertargets" data-toggle="tab">User Targets</a></li>
+                {% else %}
+                <li class="active"><a href="#tab-usertargets" data-toggle="tab">User Targets</a></li>
+                {% endif %}
                 <li><a href="#tab-hosttargets" data-toggle="tab">Host Targets</a></li>
+
             </ul>
             <div class="tab-content">
+                {% if not case.is_subcase %}
                 <div class="tab-pane active" id="tab-subcases">
                     {% for case in case.case_set.all %}
                     <h3>{{ case.name }} <span class="lead">- {{case.date_created}}</span> </h3>
@@ -46,6 +50,9 @@
                     {% endfor %}   
                 </div>
                 <div class="tab-pane" id="tab-usertargets">
+                {% else %}
+                <div class="tab-pane active" id="tab-usertargets">
+                {% endif %}
                     {% with usertargets=case.usertarget_set.all %}
                         {% include 'core/usertarget_list.html' %}
                     {% endwith %}
