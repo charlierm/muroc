@@ -105,6 +105,9 @@ class Case(AbstractBase):
         if self.parent_case and self.parent_case.is_subcase:
             raise ValidationError('Parent case is already a subcase, cannot attach cases to subcases')
 
+        if self == self.parent_case:
+            raise ValidationError('Parent case can not be self')
+
     def save(self, *args, **kwargs):
         self.slug = defaultfilters.slugify(self.name)
         super(Case, self).save(*args, **kwargs)
