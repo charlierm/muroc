@@ -1,0 +1,35 @@
+{% if not hosttargets %}
+<div class="row-fluid">
+    <div class="hero-unit span8">
+        <h1>No Host Targets</h1>
+        <p>A Host Target in Corum is a target in the context of a host/machine.</p>
+        <p>
+            <a href="#new-case-modal" class="btn btn-primary btn-large">
+                Create
+                <i class="icon-plus icon-white"></i>
+            </a>
+        </p>
+    </div>
+</div>
+{% else %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Host</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for hosttarget in hosttargets %}
+        <tr>
+            <td>{{ hosttarget.host }}</td>
+            <td>
+                <p>
+                    {{ hosttarget.description }}
+                </p>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
