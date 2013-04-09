@@ -1,5 +1,3 @@
-from django.contrib.admin.util import NestedObjects
-import pprint
 import collections
 
 
