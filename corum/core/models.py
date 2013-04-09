@@ -155,6 +155,14 @@ class UserTarget(AbstractTarget):
     def __unicode__(self):
         return self.name
 
+    @property
+    def __location__(self):
+        loc = dict()
+        loc['location'] = {'lat': self.location.y, 'lng': self.location.x}
+        loc['header'] = 'User Target'
+        loc['message'] = self.name
+        return loc
+
 
 class HostTarget(AbstractTarget):
     """
