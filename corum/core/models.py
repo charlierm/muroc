@@ -7,6 +7,7 @@ from django.contrib.gis.db import models
 from django.template import defaultfilters
 from django.core.urlresolvers import reverse
 from django.contrib.admin.util import NestedObjects
+from core import utils
 import uuid
 
 class CustomManager(models.Manager):
@@ -46,9 +47,14 @@ class AbstractBase(models.Model):
                                        object_id=self.id).count()
         return count
 
-    def get_related_objects(self):
+    def get_related_objects(self, flatten=False):
+        """
+        Returns all objects related to the current.
+        """
         collector = NestedObjects(using='default')
         collector.collect([self])
+        if flatten:
+            return list(utils.flatten(collector.nested()))
         return collector.nested()
 
     class Meta:
