@@ -51,6 +51,14 @@ class TracerouteHop(AbstractBase):
     def __unicode__(self):
         return str(self.hop_num) + ": " + self.ip_address
 
+    @property
+    def __location__(self):
+        loc = dict()
+        loc['location'] = {'lat': self.location.y, 'lng': self.location.x}
+        loc['header'] = 'Traceroute Hop'
+        loc['message'] = self.ip_address
+        return loc
+
     class Meta:
         ordering = ["hop_num"]
 

@@ -1,7 +1,7 @@
 # Create your views here.
 from django.views.generic import ListView, View, DetailView
 from django.views.generic.edit import CreateView
-from core.models import Case,UserTarget
+from core.models import Case, UserTarget
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
@@ -39,6 +39,23 @@ class DefaultCaseView(View):
         return super(DefaultCaseView, self).dispatch(request, *args, **kwargs)
 
 
+class CaseLocationsView(View):
+    def get(self, request, slug):
+        print "sdfsdf"
+        case = Case.objects.get(slug=slug)
+        l = []
+        for i in case.get_related_objects(case):
+            if hasattr(i, '__location__'):
+                print i.__location__
+                l.append(i.__location__)
+
+        return HttpResponse(json.dumps(l))
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(CaseLocationsView, self).dispatch(request, *args, **kwargs)
+
+
 class CreateCaseView(CreateView):
     model = Case
     form_class = CaseForm
@@ -52,14 +69,12 @@ class CaseDetailView(DetailView):
 
     model = Case
 
-    # def get_queryset(self):
-    #     queryset = super(CaseListView, self).get_queryset().filter(parent_case=None)
-    #     return queryset
 
 class UserTargetDetailView(DetailView):
-    
-    model=UserTarget
+
+    model = UserTarget
+
 
 class HostTargetDetailView(DetailView):
-    
-    model=UserTarget
+
+    model = UserTarget
