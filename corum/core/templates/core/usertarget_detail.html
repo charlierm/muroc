@@ -1,0 +1,88 @@
+{% extends "navbar.html" %}
+
+{% block title %}User Target - {{usertarget.name}} {% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<div class="row-fluid">
+    <div class="span12">
+        <div class="page-header">
+            <h1>User Target <small>{{usertarget.name}}</small></h1>
+            <h1><span class="lead">{{usertarget.date_created}}</span></h1>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                {% if not case.is_subcase %}
+                <li class="active"><a href="#tab-subcases" data-toggle="tab">Subcases</a></li>
+                <li><a href="#tab-usertargets" data-toggle="tab">User Targets</a></li>
+                {% else %}
+                <li class="active"><a href="#tab-usertargets" data-toggle="tab">User Targets</a></li>
+                {% endif %}
+                <li><a href="#tab-hosttargets" data-toggle="tab">Host Targets</a></li>
+
+                <li><a href="#tab-casemap" data-toggle="tab">Case Map</a></li>
+            </ul>
+            <div class="tab-content">
+                {% if not case.is_subcase %}
+                <div class="tab-pane active" id="tab-subcases">
+                    {% for case in case.case_set.all %}
+                    <h3>{{ case.name }} <span class="lead">- {{case.date_created}}</span> </h3>
+                    <p class="well">{{ case.description }}</p>
+                    <div>
+                        <a href="{{ case.get_absolute_url }}" class="btn">More.. <i class="icon-wrench"></i></a>
+                        <div class="pull-right">
+                        {% for tag in case.tags.all %}
+                            <span class="label">{{ tag.name }}</span>
+                        {% endfor %}
+                            </div>
+                        </div> 
+                    <hr>
+                    {% endfor %}   
+                </div>
+                <div class="tab-pane" id="tab-usertargets">
+                {% else %}
+                <div class="tab-pane active" id="tab-usertargets">
+                {% endif %}
+                    {% with usertargets=case.usertarget_set.all %}
+                        {% include 'core/usertarget_list.html' %}
+                    {% endwith %}
+                </div>
+                <div class="tab-pane" id="tab-hosttargets">
+                    {% with hosttargets=case.hosttarget_set.all %}
+                        {% include 'core/hosttarget_list.html' %}
+                    {% endwith %}
+                </div>
+                <div class="tab-pane" id="tab-casemap">
+                    <div id="#case-map-canvas"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% comment %}
+
+<div class="tabbable"> <!-- Only required for left/right tabs -->
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#tab1" data-toggle="tab">Section 1</a></li>
+    <li><a href="#tab2" data-toggle="tab">Section 2</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab1">
+      <p>I'm in Section 1.</p>
+    </div>
+    <div class="tab-pane" id="tab2">
+      <p>Howdy, I'm in Section 2.</p>
+    </div>
+  </div>
+</div>
+
+{% endcomment %}
+
+{% endblock %}
