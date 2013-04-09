@@ -56,7 +56,7 @@ $(document).ready(function(){
 <div class="row-fluid">
     <div class="span12">
         {% for case in case_list %}
-        <h1>{{ case.name }} <span class="lead">- {{case.date_created}}</span> </h1>
+        <h2>{{ case.name }} <span class="lead">- {{case.date_created}}</span> </h2>
         <p class="well">{{ case.description }}</p>
         <div>
             <a href="{{ case.get_absolute_url }}" class="btn">More.. <i class="icon-wrench"></i></a>
