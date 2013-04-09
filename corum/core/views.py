@@ -4,6 +4,8 @@ from django.views.generic.edit import CreateView
 from core.models import Case,UserTarget,HostTarget
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.shortcuts import render, redirect
+from django.contrib.auth.views import login
 from django.http import HttpResponse
 from core.forms import CaseForm
 import json
@@ -78,3 +80,11 @@ class UserTargetDetailView(DetailView):
 class HostTargetDetailView(DetailView):
 
     model=HostTarget
+
+
+def custom_login(request, **kwargs):
+    if request.user.is_authenticated():
+        return redirect('/', **kwargs)
+    else:
+        return login(request, template_name='core/login.html')
+
