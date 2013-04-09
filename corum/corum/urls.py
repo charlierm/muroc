@@ -10,6 +10,8 @@ urlpatterns = patterns('',
     # url(r'^corum/', include('corum.foo.urls')),
     url(r'^', include('core.urls', namespace='core')),
     url(r'^traceroute/', include('traceroute.urls')),
+    url(r'^login/$', 'core.views.custom_login'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', name='logout'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

@@ -171,6 +171,8 @@ LOGGING = {
 
 GEOIP_PATH = os.path.dirname(__file__) + os.path.sep + 'geoip'
 
+LOGIN_URL = '/login'
+
 try:
     from local_settings import *
 except ImportError:
