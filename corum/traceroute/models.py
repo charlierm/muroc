@@ -3,6 +3,7 @@ from core.models import User, Case, AbstractBase
 from django.conf import settings
 from traceroute import tasks
 from django.contrib.gis.geos import LineString
+from django.contrib.humanize.templatetags.humanize import *
 
 
 class TracerouteCase(AbstractBase):
@@ -56,7 +57,7 @@ class TracerouteHop(AbstractBase):
         loc = dict()
         loc['location'] = {'lat': self.location.y, 'lng': self.location.x}
         loc['header'] = 'Traceroute Hop'
-        loc['message'] = self.ip_address
+        loc['message'] = "%s - %s" % (naturalday(self.date_created), self.ip_address)
         return loc
 
     class Meta:
