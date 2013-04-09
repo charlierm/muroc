@@ -1,7 +1,7 @@
 # Create your views here.
 from django.views.generic import ListView, View, DetailView
 from django.views.generic.edit import CreateView
-from core.models import Case, UserTarget
+from core.models import Case,UserTarget,HostTarget
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
@@ -77,4 +77,4 @@ class UserTargetDetailView(DetailView):
 
 class HostTargetDetailView(DetailView):
 
-    model = UserTarget
+    model=HostTarget

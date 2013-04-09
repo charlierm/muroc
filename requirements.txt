@@ -1,3 +1,5 @@
 Celery
+simplekml
+pil
 Django-Celery
 BeautifulSoup
