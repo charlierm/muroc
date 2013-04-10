@@ -58,7 +58,7 @@ $(document).ready(function(){
             <dd>{{ case.owner }}</dd>
             <br>
             <dt>Description:</dt>
-            <dd class="well">{{ case.description }}</dd>
+            <dd class="well well-small">{{ case.description }}</dd>
             <br>
 
         </dl>
@@ -67,7 +67,7 @@ $(document).ready(function(){
 <br>
 <div class="row-fluid">
     <div class="span12">
-        <div class="tabbable">
+        <div class="tabbable tabs-left">
             <ul class="nav nav-tabs">
                 {% if not case.is_subcase %}
                 <li class="active"><a href="#tab-subcases" data-toggle="tab">Subcases</a></li>
