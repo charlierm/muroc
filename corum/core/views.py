@@ -43,12 +43,10 @@ class DefaultCaseView(View):
 
 class CaseLocationsView(View):
     def get(self, request, slug):
-        print "sdfsdf"
         case = Case.objects.get(slug=slug)
         l = []
         for i in case.get_related_objects(case):
             if hasattr(i, '__location__'):
-                print i.__location__
                 l.append(i.__location__)
 
         return HttpResponse(json.dumps(l))
