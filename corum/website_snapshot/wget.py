@@ -4,6 +4,7 @@ import shutil
 import os
 import zipfile
 
+
 class Wget(object):
 
     url = None
@@ -38,17 +39,18 @@ class Wget(object):
     def start(self):
         self.tmp_dir = tempfile.mkdtemp()
         output = subprocess.check_output(self.cmds, cwd=self.tmp_dir)
+        return self._zip()
 
     def _zip(self):
         tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.zip')
         zp = zipfile.ZipFile(tmp, 'w')
         for root, dirs, files in os.walk(self.tmp_dir):
-            for file in files:
-                arc_name = os.path.join(root, file).split(self.tmp_dir + '/')[-1]
-                zp.write(os.path.join(root, file), arc_name)
+            for fle in files:
+                arc_name = os.path.join(root, fle).split(self.tmp_dir + '/')[-1]
+                zp.write(os.path.join(root, fle), arc_name)
         zp.close()
-        tmp.close
-        return tmp.name
+        tmp.close()
+        return file(fle.name, 'rb')
 
     def __del__(self):
         if self.tmp_dir:
