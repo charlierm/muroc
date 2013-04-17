@@ -27,10 +27,8 @@ def _convert_to_degress(value):
     """Helper function to convert the GPS coordinates stored in the EXIF to degress in float format"""
     deg_num, deg_denom = value[0]
     d = float(deg_num) / float(deg_denom)
-
     min_num, min_denom = value[1]
     m = float(min_num) / float(min_denom)
-
     sec_num, sec_denom = value[1]
     s = float(sec_num) / float(sec_denom)
 
