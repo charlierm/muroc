@@ -14,7 +14,7 @@ class SnapshotCase(AbstractBase):
         return self.snapshot_set.all().count()
 
     def take_snapshot(self):
-        tasks.take_snapshot.delay(self)
+        tasks.take_snapshot.delay(self.pk)
 
     class Meta:
         permissions = [
