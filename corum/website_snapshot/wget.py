@@ -50,7 +50,7 @@ class Wget(object):
                 zp.write(os.path.join(root, fle), arc_name)
         zp.close()
         tmp.close()
-        return file(fle.name, 'rb')
+        return file(tmp.name, 'rb')
 
     def __del__(self):
         if self.tmp_dir:
