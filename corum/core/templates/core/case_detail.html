@@ -76,8 +76,6 @@ $(document).ready(function(){
                 <li class="active"><a href="#tab-usertargets" data-toggle="tab">User Targets</a></li>
                 {% endif %}
                 <li><a href="#tab-hosttargets" data-toggle="tab">Host Targets</a></li>
-
-                <li><a href="#tab-casemap" data-toggle="tab">Case Map</a></li>
             </ul>
             <div class="tab-content">
                 {% if not case.is_subcase %}
@@ -108,9 +106,6 @@ $(document).ready(function(){
                     {% with hosttargets=case.hosttarget_set.all %}
                         {% include 'core/hosttarget_list.html' %}
                     {% endwith %}
-                </div>
-                <div class="tab-pane" id="tab-casemap">
-                    <div id="#case-map-canvas"></div>
                 </div>
             </div>
         </div>
