@@ -32,6 +32,10 @@ class TracerouteResult(AbstractBase):
         return self.traceroutehop_set.all()
 
     @property
+    def hop_count():
+        return len(self.hops)
+
+    @property
     def line(self):
         return LineString([hop.location for hop in self.hops])
 

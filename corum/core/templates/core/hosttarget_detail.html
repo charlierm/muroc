@@ -10,39 +10,36 @@
     <div class="span12">
         <div class="page-header">
             <h1>Host Target <small>{{hosttarget.host}}</small></h1>
-            <h1><span class="lead">{{hosttargetstarget.date_created}}</span></h1>
+            <h1><span class="lead">{{hosttarget.date_created}}</span></h1>
         </div>
     </div>
 </div>
 
 <div class="row-fluid">
     <div class="span12">
-        <h2>Webpage Captures <a href="#" class="btn btn-small">New Capture <i class="icon-plus"></i></a></h2>
+        <h2>Webpage Captures <a href="/admin/website_snapshot/snapshotcase/add/" class="btn btn-small">New Capture <i class="icon-plus"></i></a></h2>
         <div>
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>User</th>
                     <th>Page URL</th>
-                    <th>Page Title</th>
                     <th>Capture Date</th>
+                    <th>Download Archive</th>
                 </tr>
             </thead>
 
             <tbody>
-                <tr>
-                    <td><a href="/users/joe">Joseph Redfern</a></td>
-                    <td>http://catgrooming.com/</td>
-                    <td>How to groom cats</td>
-                    <td>26/6/2012</td>
+                {% for snapshotcase in hosttarget.case.snapshotcase_set.all%}
+                    {% for snapshot in snapshotcase.snapshot_set.all %}
+                        <tr>
+                        <td>{{snapshotcase.owner}}</td>
+                        <td>{{snapshotcase.url}}</td>
+                        <td>{{snapshot.date_created}}</td>
+                        <td><a href="/admin/website_snapshot/snapshot/{{snapshot.id}}/{{snapshot.snapshot.url}}" class="btn btn-inverse btn-mini"><i class="icon-white icon-download"></i></a></td>
                 </tr>
-
-                <tr>
-                    <td><a href="/users/joe">Joseph Redfern</a></td>
-                    <td>http://catgrooming.com/</td>
-                    <td>HOW TO JIHAD YOURSELF</td>
-                    <td>27/6/2012</td>
-                </tr>
+                    {% endfor %}
+                {% endfor %}
             </tbody>
         </table>
         </div>
@@ -53,9 +50,35 @@
 
 <div class="row-fluid">
     <div class="span12">
-        <h2>Traceroutes <a href="#" class="btn btn-small">New Traceroute <i class="icon-plus"></i></a></h2>
+        <h2>Traceroutes <a href="/admin/traceroute/traceroutecase/" class="btn btn-small">New Traceroute <i class="icon-plus"></i></a></h2>
         <div>
-            sdgfsdfg
+
+            
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Start Location</th>
+                    <th>Hops</th>
+                    <th>Capture Date</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for traceroutecase in hosttarget.case.traceroutecase_set.all%}
+                    {% for tracerouteresult in traceroutecase.tracerouteresult_set.all %}
+                        <tr>
+                        <td>{{traceroutecase.owner}}</td>
+                        <td>{{tracerouteresult.location}}</td>
+                        <td>{{tracerouteresult.hops.count}}</td>
+                        <td>{{traceroutecase.date_created}}</td>
+                        <td><a href="/traceroute/result/{{tracerouteresult.id}}" class="btn btn-inverse btn-mini"><i class="icon-white icon-search"></i></a></td>
+                </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
         </div>
     </div>
 </div>
