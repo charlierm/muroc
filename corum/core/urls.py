@@ -5,7 +5,7 @@ from core.views import *
 uuid = '[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}'
 
 urlpatterns = patterns('',
-                       url(r'^cases/$', CaseListView.as_view()),
+                       url(r'^$', CaseListView.as_view()),
                        url(r'^cases/(?P<slug>[a-z0-9-]{0,100})/$', CaseDetailView.as_view(), name='case_detail'),
                        url(r'^cases/(?P<slug>[a-z0-9-]{0,100})/user/(?P<pk>%s)$'%uuid, UserTargetDetailView.as_view(), name='usertarget_detail'),
                        url(r'^cases/(?P<slug>[a-z0-9-]{0,100})/user/(?P<pk>%s)$'%uuid, HostTargetDetailView.as_view(), name='hosttarget_detail'),
